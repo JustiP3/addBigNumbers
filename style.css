@@ -1,18 +1,18 @@
 body {
-    background-color: darkgray;
-  }
-  h1 {
-    color: blue;
-  }
-  p {
-    color: red;
-  }
+  background-color: darkgray;
+}
+h1 {
+  color: blue;
+}
+p {
+  color: blue;
+}
 
-  div {
-	  display: center;
-  }
-  
-  .result {
-	  padding: 50px;
-	  color: blue; 
-  }
+div {
+  display: center;
+}
+
+.result {
+  padding: 50px;
+  color: blue;
+}

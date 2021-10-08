@@ -12,18 +12,25 @@ class AppController {
 		x.type = "text"
 		x.id = "x"
 		x.name = "x"
+
+		const plus = document.createElement('p')
+		plus.id = "plus"
+		plus.innerText = "+"
+		
 				
 		const y = document.createElement('input')
 		y.type = "text"
 		y.id = "y"
 		y.name = "y"
 		wrapper.appendChild(x)
+		wrapper.appendChild(plus)
 		wrapper.appendChild(y)
+
+		
 		
 		const button = document.createElement('button')
 		button.id = 'button'
-		button.innerText = 'submit'
-		
+		button.innerText = 'equals'		
 		wrapper.appendChild(button)
 		
 		const result = document.createElement('div')
