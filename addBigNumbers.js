@@ -121,34 +121,76 @@ class AddBigNumbers {
 		if (string.length == 0) {
 			return "zero"
 		}
-		
-		let solution = "" 	
+			
 		let reverse = string.split("").reverse()	
 		
 		// break reverse array into blocks of 3 , send them to pattern() then concat suffix (<none>, thousand, million, etc. ) 	
+
 			// if pattern returns 000 do not concat suffix   (1,000,001) is not one million zero thousand one, it is one million one - no concat thousand if all 000
+		function shouldAddSuffix (array) {
+			// returns true or false
+			// if all zeros do not add suffix 
+			// array is an array of single digit strings length 3 
+			return array.every(x => x != "0")
+		}
+
+		//solutionkey will return a the function to test whether or not the lower groups are all 000s
+		//this will reduce repetition below 
 		
+		const solutionKey = {		
+			"thousands": (revArray) => {
+				let solution = ""		
+				if (shouldAddSuffix(revArray.slice(3,6)) == true) {
+					solution = pattern(revArray.slice(3,6)) + " thousand \n" 
+				} 
+				return solution + pattern(revArray.slice(0,3)) 
+			},
+			"millions": (revArray) => {				
+				if (shouldAddSuffix(revArray.slice(6,9)) == true) {
+					return pattern(revArray.slice(6,9)) + " million \n"
+				} else {
+					return ""
+				}							
+			},
+			"billions": (revArray) => {
+				if (shouldAddSuffix(revArray.slice(9,12)) == true) {
+					return pattern(revArray.slice(9,12)) + " billion \n"
+				} else {
+					return ""
+				}
+			},
+			"trillions": (revArray) => {
+				if (shouldAddSuffix(revArray.slice(12,15)) == true) {
+					return pattern(revArray.slice(12,15)) + " trillion \n"
+				} else {
+					return ""
+				}
+			}
+		}
+
 		if (reverse.length < 4) {
-			solution = pattern(reverse)
-			return solution 			
+			return pattern(reverse)			
 		}	else if (reverse.length < 7) {
-			solution = pattern(reverse.slice(3,6)) + " thousand \n" + pattern(reverse.slice(0,3)) 
-			return solution 
+			return pattern(reverse.slice(3,6)) + " thousand " + pattern(reverse.slice(0,3))
 		}	else if (reverse.length < 10) {
-			solution = pattern(reverse.slice(6,9)) + " million \n" + pattern(reverse.slice(3,6)) + " thousand \n" + pattern(reverse.slice(0,3)) 
-			return solution 
+			return pattern(reverse.slice(6,9)) + " million \n" + solutionKey["thousands"](reverse)	
 		}	else if (reverse.length < 13) {
-			solution = pattern(reverse.slice(9,12)) + " billion \n" + pattern(reverse.slice(6,9)) + " million \n" + pattern(reverse.slice(3,6)) + " thousand \n" + pattern(reverse.slice(0,3)) 
-			return solution 
+			return pattern(revArray.slice(9,12)) + " billion \n" + 
+			solutionKey["millions"](reverse) + 
+			solutionKey["thousands"](reverse)			
 		}	else if (reverse.length < 16) {
-			solution = pattern(reverse.slice(12,15)) + " trillion \n" + pattern(reverse.slice(9,12)) + " billion \n" + pattern(reverse.slice(6,9)) + " million \n" + pattern(reverse.slice(3,6)) + " thousand \n" + pattern(reverse.slice(0,3)) 
-			return solution 
+			return pattern(reverse.slice(12,15)) + " trillion \n" + 
+			solutionKey["billions"](reverse) + 
+			solutionKey["millions"](reverse) + 
+			solutionKey["thousands"](reverse)
 		}	else if (reverse.length < 19) {
-			solution = pattern(reverse.slice(15,18)) + " quadrillion \n" + pattern(reverse.slice(12,15)) + " trillion \n" + pattern(reverse.slice(9,12)) + " billion \n" + pattern(reverse.slice(6,9)) + " million \n" + pattern(reverse.slice(3,6)) + " thousand \n" + pattern(reverse.slice(0,3)) 
-			return solution 
+			return pattern(reverse.slice(15,18)) + " quadrillion \n" + 
+			solutionKey["trillions"](reverse) +
+			solutionKey["billions"](reverse) + 
+			solutionKey["millions"](reverse) + 
+			solutionKey["thousands"](reverse)
 		}	else {
-			solution = "too big" 
-			return solution 
+			return "too big" 
 		}
 		
 		// pattern is a helper function only defined within the context of AddBigNumbers.wordForm() 
