@@ -137,7 +137,7 @@ class AddBigNumbers {
 	static formatStringNumber(string) {
 		// returns a string with commas added every 3 numbers 
 		let counter = 0
-		let commas = string.split("").reverse().map(x => {
+		return string.split("").reverse().map(x => {
 			if (counter % 3 === 0 && counter != 0) {
 				counter = 1
 				return x + ","			
@@ -146,7 +146,6 @@ class AddBigNumbers {
 				return x 
 			}
 		}).reverse().join("")
-		return commas 
 	}
 	
 	static wordForm(string) {
@@ -166,7 +165,7 @@ class AddBigNumbers {
 			// returns true or false
 			// if all zeros do not add suffix 
 			// array is an array of single digit strings length 3 
-			return array.every(x => x != "0")
+			return !array.every(x => x === "0")
 		}
 
 		//solutionkey will return a the function to test whether or not the lower groups are all 000s
@@ -174,11 +173,11 @@ class AddBigNumbers {
 		
 		const solutionKey = {		
 			"thousands": (revArray) => {
-				let solution = ""		
 				if (shouldAddSuffix(revArray.slice(3,6)) == true) {
-					solution = pattern(revArray.slice(3,6)) + " thousand \n" 
-				} 
-				return solution + pattern(revArray.slice(0,3)) 
+					return pattern(revArray.slice(3,6)) + " thousand \n" + pattern(revArray.slice(0,3))  
+				} else {
+					return pattern(revArray.slice(0,3))  
+				}				
 			},
 			"millions": (revArray) => {				
 				if (shouldAddSuffix(revArray.slice(6,9)) == true) {
@@ -200,17 +199,26 @@ class AddBigNumbers {
 				} else {
 					return ""
 				}
+			},
+			"quadrillions": (revArray) => {
+				if (shouldAddSuffix(revArray.slice(15,18)) == true) {
+					return pattern(revArray.slice(15,18)) + " quadrillion \n"
+				} else {
+					return ""
+				}
 			}
 		}
 
 		if (reverse.length < 4) {
 			return pattern(reverse)			
 		}	else if (reverse.length < 7) {
-			return pattern(reverse.slice(3,6)) + " thousand " + pattern(reverse.slice(0,3))
+			return pattern(reverse.slice(3,6)) + " thousand " + 
+			pattern(reverse.slice(0,3))
 		}	else if (reverse.length < 10) {
-			return pattern(reverse.slice(6,9)) + " million \n" + solutionKey["thousands"](reverse)	
+			return pattern(reverse.slice(6,9)) + " million \n" + 
+			solutionKey["thousands"](reverse)	
 		}	else if (reverse.length < 13) {
-			return pattern(revArray.slice(9,12)) + " billion \n" + 
+			return pattern(reverse.slice(9,12)) + " billion \n" + 
 			solutionKey["millions"](reverse) + 
 			solutionKey["thousands"](reverse)			
 		}	else if (reverse.length < 16) {
@@ -224,11 +232,17 @@ class AddBigNumbers {
 			solutionKey["billions"](reverse) + 
 			solutionKey["millions"](reverse) + 
 			solutionKey["thousands"](reverse)
+		}	else if (reverse.length < 22) {
+			return pattern(reverse.slice(18,21)) + " quintillion \n" +
+			solutionKey["quadrillions"](reverse) +
+			solutionKey["trillions"](reverse) +
+			solutionKey["billions"](reverse) + 
+			solutionKey["millions"](reverse) + 
+			solutionKey["thousands"](reverse)
 		}	else {
 			return "too big" 
 		}
 		
-		// pattern is a helper function only defined within the context of AddBigNumbers.wordForm() 
 		// pattern accepts an array of 3 string numbers and returns the word form of those 3 numbers #=> 333 -> three hundred thirty-three 
 		// this is the pattern of increasing numbers in word form. with this we can concat the suffix if applicable (thousand, million, billion, etc. ) (see above  ) 
 		function pattern (reverse) {
