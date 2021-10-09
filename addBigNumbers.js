@@ -61,8 +61,11 @@ class AppController {
 }
 
 class AddBigNumbers {
+	// accepts two string inputs
+	// checks input to ensure all numbers no letters or special chars
+	// returns the sum in string form 
 	static add(a, b) {	
-		// arrayAdd is a helper function only defined within the scope of AddBigNumbers.add() 
+		// arrayAdd is a helper function that adds each array element and accounts for carried values (9+9 = 18)		
 		function arrayAdd(a, b, c, count) {
 			if (count == 0) {
 				c[count] = a[count] + b[count]
@@ -83,12 +86,44 @@ class AddBigNumbers {
 			}	
 			return c 
 		}
-		
-		if (!a || !b || a.length == 0 || b.length == 0) {
-			return ""
+		// strip preceding zeros (e.g. 0005 + 004 => 5 + 4)
+		// if input blank input = 0
+		// strip non numerical string values 
+		// returns a string of numbers 
+		function cleanseInput(a) {
+			if (!a) {
+				a = "0"
+			}
+			
+			// if input contains non-numerical values
+			if (/[^\d.-]/.test(a) == true) {
+				return "0"
+			}			
+
+			// if input is all zeros return 0 
+			a = a.split("")			
+			if (a.every(x => x == "0")) {
+				return "0"
+			}
+
+			//strip preceeding zeros 
+			let counter = 0;
+			let leadingZero = true;
+			let zeros = 0;
+
+			while (counter < a.length  && leadingZero == true) {
+				if (a[counter] == "0") {
+					zeros ++
+				} else {
+					leadingZero = false; 
+				}
+				counter ++ 
+			}
+			return a.slice(zeros).join("")
 		}
-		let aArray = a.split("").map(x => Number(x)).reverse()
-		let bArray = b.split("").map(x => Number(x)).reverse()
+		
+		let aArray = cleanseInput(a).split("").map(x => Number(x)).reverse()
+		let bArray = cleanseInput(b).split("").map(x => Number(x)).reverse()
 		let cArray = []
 
 		let counter = 0
