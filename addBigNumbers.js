@@ -40,6 +40,13 @@ class AppController {
 		
 		wrapper.appendChild(result)
 
+		const spanishResult = document.createElement('div')
+		spanishResult.innerText = "sin resultado"
+		spanishResult.id = 'resultado'
+		spanishResult.classList.add('result')
+		
+		wrapper.appendChild(spanishResult)
+
 		button.addEventListener('click', function(e){
 			const a = document.getElementById('x').value
 			const b = document.getElementById('y').value 
@@ -53,9 +60,11 @@ class AppController {
 	
 	static updateResult(z) {
 		let result = document.getElementById('result') 
-		AddBigNumbers.wordForm(z)
+		let spanishResult = document.getElementById('resultado')
+
 		result.innerText = AddBigNumbers.formatStringNumber(z)
 		result.innerText += "\n" + AddBigNumbers.wordForm(z)
+		spanishResult.innerText = AddBigNumbers.palabra(z)
 	}
 	
 }
@@ -348,7 +357,9 @@ class AddBigNumbers {
 	
 	}
 	
-	
+	static palabra(numero) {
+		return "numero: " + numero
+	}
 }
 
 //    Test.assertEquals(add('63829983432984289347293874', '90938498237058927340892374089'), "91002328220491911630239667963")
