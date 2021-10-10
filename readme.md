@@ -5,7 +5,6 @@ Screenshot:
 
 TODO:
 -fix bugs
--make content centered
 -make wordform variation in spanish
 -account for bigger numbers than quintillion in wordform
 

@@ -2,17 +2,41 @@ body {
   background-color: darkgray;
 }
 h1 {
+  margin: auto;
   color: blue;
+  text-align: center;
 }
 p {
   color: blue;
+  margin: auto;
+  text-align: center;
 }
 
 div {
   display: center;
+  width: 100%;
+  display: block;
+  margin: auto;
+  text-align: center;
+  padding: 10px;
+  border: 10px;
+  border-color: blue;
+  background-color: white;
+}
+
+button {
+  display: block;
+  margin: auto;
+  text-align: center;
+  padding: 10px;
+  border: 10px;
 }
 
 .result {
   padding: 50px;
   color: blue;
+  margin: auto;
+  text-align: center;
+  padding: 10px;
+  border: 10px;
 }
